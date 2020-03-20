@@ -96,6 +96,7 @@ var Terminal = (function () {
 		this._output = document.createElement('p')
 		this._output.className= 'results'
 		this._inputLine = document.createElement('span') //the span element where the users input is put
+		this._inputLine.id= 'cmdLine' //added class of cmdline for changing directories below.
 		this._cursor = document.createElement('span')
 		this._input = document.createElement('p') //the full element administering the user input, including cursor
 
@@ -109,7 +110,7 @@ var Terminal = (function () {
 		this.print = function (message) {
 			var newLine = document.createElement('div')
 			newLine.textContent = message
-			newLine.className = message
+			newLine.className = message.replace(/[^a-zA-Z0-9]/g, "") //remove all special characters from classname for styling
 			this._output.appendChild(newLine)
 		}
 
@@ -201,15 +202,27 @@ var t1 = new Terminal()
 						t1.print('projects');
 						t1.print('contact');
 						terminal()
-					} else if (input == '~ cat aboutMe') {
-						t1.print('  I am a front-end web developer with a skill for building relationships. I enjoy coding in JavaScript, am experienced in using React, and have recently been learning Python and Gatsby.');
-						t1.print('  Having worked closely with companies and business owners for the majority of my career, I bring a uniquely user-centered perspective to every project. I am experienced in collaborating remotely in a team environment as well as working independently.');
-						t1.print('  In addition to programming, I enjoy practing Brazillian Jiu Jitsu, weight lifting, pc gaming, and experimenting with home automation using smart home tech.');
+					} else if (input == '~ ls -a'){
+						t1.print('aboutMe');
+						t1.print('projects');
+						t1.print('contact');
+						t1.print('.hidden');
+						var hidden = document.getElementsByClassName('.hidden')
+						hidden.className = 'hidden'
+						terminal()	
+					} else if (input =='~ ls -l') {
+						t1.print('r--r--r--  1  user   user  Jan 1	2020 aboutMe')
+						t1.print('r--r--r--  1  user   user  Jan 1	2020 projects')
+						t1.print('r--r--r--  1  user   user  Jan 1	2020 contact')
+					}
+					else if (input == '~ cat aboutMe') {
+						t1.print('I am a front-end web developer with a skill for building relationships. I enjoy coding in JavaScript, am experienced in using React, and have recently been learning Python and Gatsby.');
+						t1.print('Having worked closely with companies and business owners for the majority of my career, I bring a uniquely user-centered perspective to every project. I am experienced in collaborating remotely in a team environment as well as working independently.');
+						t1.print('In addition to programming, I enjoy practing Brazillian Jiu Jitsu, weight lifting, pc gaming, and experimenting with home automation using smart home tech.');
 						terminal()
 					}  else if (input == '~ cat contact'){
 						var results = document.getElementsByClassName('results')
 						// var mydiv = document.getElementById("myDiv");
-						var pTag = document.createElement('br');
 						var aTag = document.createElement('a');
 						var bTag = document.createElement('a');
 						var cTag = document.createElement('a');
@@ -230,45 +243,26 @@ var t1 = new Terminal()
 						results[0].appendChild(bTag);
 						results[0].appendChild(document.createElement("br"));
 
-
 						results[0].appendChild(cTag);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-						// // Create anchor element. 
-						// var divElement = document.createElement('div')
-						// var a = document.createElement('a');  
-						
-						// var anchorElement = divElement.appendChild(a)
-						// var github = divElement.appendChild(a)
-						// var linkedin = divElement.appendChild(a)
-						// // Create the text node for anchor element. 
-						// var websiteText = document.createTextNode("tonynicola.com"); 
-						// var githubText = document.createTextNode("github.com/tdnicola"); 
-						// var linkedInText = document.createTextNode("https://www.linkedin.com/in/tony-nicola"); 
-						// // Append the text node to anchor element. 
-						// anchorElement.appendChild(websiteText);  
-						// var websiteLink = anchorElement.href = "https://tonynicola.com";  
-
-						// var results = document.getElementsByClassName('results')
-						// results[0].appendChild(githubText);  
-						// results[0].appendChild(linkedInText);  
-						// results[0].appendChild(websiteLink);  
 						terminal()
+					}
+					else if (input == '~ file aboutMe' || input == '~ file contact') {
+						t1.print('ASCII text')
+						terminal()
+					}
+					else if (input == '~ file projects') {
+						t1.print('projects: directory')
+						terminal()
+					}
+					else if (input == '~ cd projects') {
+						// t1.print('hello')
+						var cmd = document.getElementById('cmdLine')
+						cmd.textContent = '~ projects'
+
+						
+						terminal()
+						// terminalObj._inputLine.textContent = '~ projects'
 					}
 					else if (input == '~ clear') {
 						t1.clear()

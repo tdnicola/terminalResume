@@ -8,9 +8,16 @@
 }
 
 h1 {
-    
+
 }
 
 a {
     color: white;
+}
+.projects {
+    color: #69C2CF;
+}
+
+div .hidden {
+    opacity: .5;
 }
