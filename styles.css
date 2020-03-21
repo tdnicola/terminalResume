@@ -17,6 +17,12 @@ a {
 .projects {
     color: #69C2CF;
 }
+.cd.projects {
+    color: white;
+}
+.file.projects {
+    color: white
+}
 
 div .hidden {
     opacity: .5;

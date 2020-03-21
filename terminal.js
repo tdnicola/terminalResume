@@ -110,7 +110,7 @@ var Terminal = (function () {
 		this.print = function (message) {
 			var newLine = document.createElement('div')
 			newLine.textContent = message
-			newLine.className = message.replace(/[^a-zA-Z0-9]/g, "") //remove all special characters from classname for styling
+			newLine.className = message.replace(/[^a-zA-Z0-9]/g, " ") //remove all special characters from classname for styling
 			this._output.appendChild(newLine)
 		}
 
@@ -195,37 +195,94 @@ var t1 = new Terminal()
 			t1.setBackgroundColor('#1E1E1E')
 			document.body.appendChild(t1.html)
 	
-			const terminal =() => {
+
+
+
+			const descriptions = [
+					{
+						name: 'aboutMe',
+						info: [
+							'I am a front-end web developer with a skill for building relationships. I enjoy coding in JavaScript, am experienced in using React, and have recently been learning Python and Gatsby.',
+							'Having worked closely with companies and business owners for the majority of my career, I bring a uniquely user-centered perspective to every project. I am experienced in collaborating remotely in a team environment as well as working independently.',
+							'In addition to programming, I enjoy practing Brazillian Jiu Jitsu, weight lifting, pc gaming, and experimenting with home automation using smart home tech.',
+						],
+						file: 'aboutMe: ASCII text',
+
+						cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 aboutMe',
+					},
+					{
+						name: 'projects',
+						cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 projects',
+						// info: []
+						file: 'projects: directory',
+						
+					},
+					{
+						name: 'contact',
+						cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 contact',
+						// info: [
+						// 	results[0].appendChild(aTag),
+						// 	results[0].appendChild(document.createElement("br")),
+						// 	results[0].appendChild(bTag),
+						// 	results[0].appendChild(document.createElement("br")),
+						// 	results[0].appendChild(cTag),
+						// ]
+						file: 'contact: ASCII text',
+						
+					},
+					{
+						name: '.hidden',
+						cmdDetails: 'r--r--r--  1  admin   admin  Jan 1		2001 hidden',
+						file: '.hidden: ASCII text',
+
+					}
+					
+				]
+			const terminal = () => {
 				t1.input('', function(input) {
 					if (input == '~ ls') {
-						t1.print('aboutMe');
-						t1.print('projects');
-						t1.print('contact');
+						descriptions.map((description) => {
+							if (description.name == '.hidden') {
+								return
+							} else {
+								t1.print(description.name)
+							}
+						})
 						terminal()
 					} else if (input == '~ ls -a'){
-						t1.print('aboutMe');
-						t1.print('projects');
-						t1.print('contact');
-						t1.print('.hidden');
-						var hidden = document.getElementsByClassName('.hidden')
-						hidden.className = 'hidden'
+						descriptions.map((description) => {
+							t1.print(description.name)
+						})
+
 						terminal()	
 					} else if (input =='~ ls -l') {
-						t1.print('r--r--r--  1  user   user  Jan 1	2020 aboutMe')
-						t1.print('r--r--r--  1  user   user  Jan 1	2020 projects')
-						t1.print('r--r--r--  1  user   user  Jan 1	2020 contact')
-					}
-					else if (input == '~ cat aboutMe') {
-						t1.print('I am a front-end web developer with a skill for building relationships. I enjoy coding in JavaScript, am experienced in using React, and have recently been learning Python and Gatsby.');
-						t1.print('Having worked closely with companies and business owners for the majority of my career, I bring a uniquely user-centered perspective to every project. I am experienced in collaborating remotely in a team environment as well as working independently.');
-						t1.print('In addition to programming, I enjoy practing Brazillian Jiu Jitsu, weight lifting, pc gaming, and experimenting with home automation using smart home tech.');
+						descriptions.map((description) => {
+							if (description.name == '.hidden') {
+								return
+							} else {
+								t1.print(description.cmdDetails)
+							}
+						})
 						terminal()
+					} else if (input =='~ ls -la') {
+						descriptions.map((description) => {
+							t1.print(description.cmdDetails)
+						})
+						terminal()
+
+					} else if (input == '~ cat aboutMe') {
+						descriptions.map((description) => {
+							description.info.map((info) => {
+								t1.print(info)
+							})
+						})
+
 					}  else if (input == '~ cat contact'){
 						var results = document.getElementsByClassName('results')
-						// var mydiv = document.getElementById("myDiv");
 						var aTag = document.createElement('a');
 						var bTag = document.createElement('a');
 						var cTag = document.createElement('a');
+
 						aTag.setAttribute('href',"https://www.tonynicola.com");
 						aTag.setAttribute('target', 'blank');
 						aTag.innerText = "tonynicola.com";						
@@ -236,7 +293,6 @@ var t1 = new Terminal()
 						cTag.setAttribute('target', 'blank');
 						cTag.innerText = "linkedin/tdnicola";
 
-
 						results[0].appendChild(aTag);
 						results[0].appendChild(document.createElement("br"));
 
@@ -246,21 +302,19 @@ var t1 = new Terminal()
 						results[0].appendChild(cTag);
 
 						terminal()
-					}
-					else if (input == '~ file aboutMe' || input == '~ file contact') {
-						t1.print('ASCII text')
+					
+					} else if (input.startsWith('~ file ') == true ) {
+						const inputArray = input.split(' ')
+						const searchTerm = inputArray.splice(2, 1) + ''
+
+							t1.print(descriptions.filter(o =>
+								Object.keys(o).some(k => o[k].includes(searchTerm)))[0].file)
+
 						terminal()
-					}
-					else if (input == '~ file projects') {
-						t1.print('projects: directory')
-						terminal()
-					}
-					else if (input == '~ cd projects') {
-						// t1.print('hello')
+					} else if (input == '~ cd projects') {
 						var cmd = document.getElementById('cmdLine')
 						cmd.textContent = '~ projects'
 
-						
 						terminal()
 						// terminalObj._inputLine.textContent = '~ projects'
 					}
