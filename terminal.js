@@ -28,7 +28,14 @@ var Terminal = (function () {
 		inputField.style.opacity = '0'
 		inputField.style.fontSize = '0.2em'
 
-		terminalObj._inputLine.textContent = '~ '
+		const cmd = document.getElementById('cmdLine')
+
+		if (cmd.classList.contains('after') === false) {
+			terminalObj._inputLine.textContent = '~ '
+		} else {
+			terminalObj._inputLine.textContent = '~ projects '
+		}
+
 		terminalObj._input.style.display = 'block'
 		terminalObj.html.appendChild(inputField)
 		fireCursorInterval(inputField, terminalObj)
@@ -213,7 +220,39 @@ var t1 = new Terminal()
 					{
 						name: 'projects',
 						cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 projects',
-						// info: []
+						info: [
+							{
+								projectName: 'name1',
+								// links:	{
+								// 	github: 'github link1',
+								// 	site: 'live link1',
+								// },
+								description: 'project1 description',
+								file: 'name1: ASCII text',
+								cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 name 1',
+							},
+							{
+								projectName: 'name2',
+								// links:	{
+								// 	github: 'github link2',
+								// 	site: 'live link2',
+								// },
+								description: 'project2 description',								
+								file: 'name2: ASCII text',
+								cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 name 2',
+							},
+							{
+								projectName: 'name3',
+								// links:	{
+								// 	github: 'github link3',
+								// 	site: 'live link3',
+								// },
+								description: 'project3 description',
+								file: 'name3: ASCII text',
+								cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 name 3',
+							},
+							
+						],
 						file: 'projects: directory',
 						
 					},
@@ -221,12 +260,10 @@ var t1 = new Terminal()
 						name: 'contact',
 						cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 contact',
 						// info: [
-						// 	results[0].appendChild(aTag),
-						// 	results[0].appendChild(document.createElement("br")),
-						// 	results[0].appendChild(bTag),
-						// 	results[0].appendChild(document.createElement("br")),
-						// 	results[0].appendChild(cTag),
-						// ]
+						// 	'https://www.tonynicola.com',
+						// 	'https://www.github.com/tdnicola',
+						// 	'https://www.linkedin.com/in/tony-nicola',
+						// ],
 						file: 'contact: ASCII text',
 						
 					},
@@ -238,6 +275,8 @@ var t1 = new Terminal()
 					}
 					
 				]
+
+
 			const terminal = () => {
 				t1.input('', function(input) {
 					if (input == '~ ls') {
@@ -271,12 +310,11 @@ var t1 = new Terminal()
 						terminal()
 
 					} else if (input == '~ cat aboutMe') {
-						descriptions.map((description) => {
-							description.info.map((info) => {
+						descriptions[0].info.map((info) => {
 								t1.print(info)
 							})
-						})
-
+					
+						terminal()
 					}  else if (input == '~ cat contact'){
 						var results = document.getElementsByClassName('results')
 						var aTag = document.createElement('a');
@@ -306,24 +344,81 @@ var t1 = new Terminal()
 					} else if (input.startsWith('~ file ') == true ) {
 						const inputArray = input.split(' ')
 						const searchTerm = inputArray.splice(2, 1) + ''
-
+						try {
 							t1.print(descriptions.filter(o =>
-								Object.keys(o).some(k => o[k].includes(searchTerm)))[0].file)
-
+								Object.keys(o).some(k => 
+									o[k].includes(searchTerm)
+								)
+							)[0].file)
+						
+						} catch(err) {
+							terminal()
+							console.log(err);
+						}
 						terminal()
+
 					} else if (input == '~ cd projects') {
 						var cmd = document.getElementById('cmdLine')
-						cmd.textContent = '~ projects'
+						cmd.className = 'after'
+						
+						terminal()
+
+					} else if (input == '~ projects cd') {
+						var cmd = document.getElementById('cmdLine')
+						cmd.classList.remove('after')
+						terminal()
+
+					} else if (input == '~ projects ls') {
+						descriptions[1].info.map(project => {
+							t1.print(project.projectName);
+						})
 
 						terminal()
-						// terminalObj._inputLine.textContent = '~ projects'
+					} else if (input == '~ projects ls -l' || input == '~ projects ls -la') {
+						descriptions[1].info.map(project => {
+							t1.print(project.cmdDetails);
+						})
+
+						terminal()
+					} else if (input.startsWith('~ projects cat ') == true ) {
+						const inputArray = input.split(' ')
+						const searchTerm = inputArray.splice(3, 1) + ''
+						try {
+							t1.print(descriptions[1].info.filter(o =>
+								Object.keys(o).some(k => 
+									o[k].includes(searchTerm)
+								)
+							)[0].description)
+						} catch(err) {
+							terminal()
+							console.log(err);
+						}
+						terminal()
+
+					} else if (input.startsWith('~ projects file ') == true ) {
+						const inputArray = input.split(' ')
+						const searchTerm = inputArray.splice(3, 1) + ''
+						try {
+							t1.print(descriptions[1].info.filter(o =>
+								Object.keys(o).some(k => 
+									o[k].includes(searchTerm)
+								)
+							)[0].file)
+						} catch(err) {
+							terminal()
+							console.log(err);
+						}
+						terminal()
+
 					}
 					else if (input == '~ clear') {
 						t1.clear()
 						terminal()
+
 					}
 					else {
 						terminal()
+
 					}
 				})
 			}
