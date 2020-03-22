@@ -174,7 +174,7 @@ var Terminal = (function () {
 		this.html.appendChild(this._innerWindow)
 
 		this.setTextColor('white')
-		this.setTextSize('1em')
+		this.setTextSize('.8em')
 
 		this.setWidth('65%')
 		this.setHeight('500px')

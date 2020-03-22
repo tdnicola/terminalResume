@@ -1,38 +1,68 @@
-body{
-    background-color: #1E1E1E;
-    color: white;
+body {
+  background-color: black;
+  background-image: radial-gradient(rgba(0, 150, 0, 0.75), black 120%);
+  overflow: auto;
+  margin: 0 auto;
+  padding: 2rem;
+  color: white;
+  font: 1.3rem Inconsolata, monospace;
+  text-shadow: 0 0 5px #C8C8C8;
+}
+
+body::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15) 1px, transparent 1px, transparent 2px);
+  pointer-events: none;
+}
+
+::-moz-selection {
+  background: #0080FF;
+  text-shadow: none;
+}
+
+::selection {
+  background: #0080FF;
+  text-shadow: none;
 }
 
 .Terminal {
-    overflow: auto;
-    /* align-content: center; */
-    /* text-align: center; */
-    margin: 0 auto;
-    border: 1.5px solid white
+  border: 1.5px solid white;
 }
 
 #cmdline.after {
-    content: '~ projects '
+  content: '~ projects ';
 }
 
 a {
-    color: white;
+  color: white;
 }
+
 .projects {
-    color: #69C2CF;
+  color: #69C2CF;
 }
+
 .cd.projects {
-    color: white;
+  color: white;
 }
+
 .file.projects {
-    color: white;
+  color: white;
 }
+
 .cat.projects {
-    color: white;
+  color: white;
 }
+
 .cat.hidden {
-    opacity: 1;
+  opacity: 1;
 }
+
 div .hidden {
-    opacity: .5;
+  opacity: .5;
 }
+/*# sourceMappingURL=styles.css.map */
