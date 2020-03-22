@@ -21,7 +21,6 @@ var Terminal = (function () {
 		var shouldDisplayInput = (PROMPT_TYPE === PROMPT_INPUT)
 		var inputField = document.createElement('input')
 
-		inputField.style.position = 'absolute'
 		inputField.style.zIndex = '-100'
 		inputField.style.outline = 'none'
 		inputField.style.border = 'none'
@@ -202,9 +201,6 @@ var t1 = new Terminal()
 			t1.setBackgroundColor('#1E1E1E')
 			document.body.appendChild(t1.html)
 	
-
-
-
 			const descriptions = [
 					{
 						name: 'aboutMe',

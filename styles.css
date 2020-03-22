@@ -1,10 +1,14 @@
-
+body{
+    background-color: #1E1E1E;
+    color: white;
+}
 
 .Terminal {
     overflow: auto;
     /* align-content: center; */
     /* text-align: center; */
-    margin: 0 auto
+    margin: 0 auto;
+    border: 1.5px solid white
 }
 
 #cmdline.after {
@@ -21,9 +25,14 @@ a {
     color: white;
 }
 .file.projects {
-    color: white
+    color: white;
 }
-
+.cat.projects {
+    color: white;
+}
+.cat.hidden {
+    opacity: 1;
+}
 div .hidden {
     opacity: .5;
 }
