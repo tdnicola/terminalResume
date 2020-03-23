@@ -32,6 +32,7 @@ body::after {
 
 .Terminal {
   border: 1.5px solid white;
+  overflow: auto;
 }
 
 #cmdline.after {
@@ -47,6 +48,10 @@ a {
 }
 
 .cd.projects {
+  color: white;
+}
+
+.projects.ls {
   color: white;
 }
 

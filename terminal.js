@@ -218,34 +218,31 @@ var t1 = new Terminal()
 						cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 projects',
 						info: [
 							{
-								projectName: 'name1',
-								// links:	{
-								// 	github: 'github link1',
-								// 	site: 'live link1',
-								// },
-								description: 'project1 description',
-								file: 'name1: ASCII text',
-								cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 name 1',
+								projectName: 'healthyPotatoesApp',
+								
+								github: 'https://github.com/tdnicola/healthyPotatoes_movieApp',
+								site: 'https://healthypotatoes.herokuapp.com/',
+								
+								description: 'MERN stack (MongoDB, Express, React, and Node.js) using password hashing for CRUD methods. Pulls movie/director information from MongoDB API. Allows you to change user information as well as favorite/remove movies once logged in. Hosted on Heroku.',
+								file: 'healthyPotatoesApp: ASCII text',
+								cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 healthyPotatoesApp',
 							},
 							{
-								projectName: 'name2',
-								// links:	{
-								// 	github: 'github link2',
-								// 	site: 'live link2',
-								// },
-								description: 'project2 description',								
-								file: 'name2: ASCII text',
-								cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 name 2',
+								projectName: 'discordBot',
+								github: 'https://github.com/tdnicola/discord_insult-bot',
+								description: 'Discord bot that when given commands will: insult friends, praise friends, random gif, or search for a gif through various APIs. Uses OOP to query/update postgreSQL database for stats. Built with Node.js.',								
+								file: 'discordBot: ASCII text',
+								cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 discordBot',
 							},
 							{
-								projectName: 'name3',
-								// links:	{
-								// 	github: 'github link3',
-								// 	site: 'live link3',
-								// },
-								description: 'project3 description',
-								file: 'name3: ASCII text',
-								cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 name 3',
+								projectName: 'meetupApp',
+							
+								github: 'https://github.com/tdnicola/meetup',
+								site: 'https://tdnicola.github.io/meetup/',
+								
+								description: 'Serverless PWA built with React using TDD/BDD/End-to-End testing.	Application uses the meetup API and AWS. Data visualization where applicable. Have to log into meetup to test. test email/pw email: kja76448@bcaoo.com	pw: testing',
+								file: 'meetupApp: ASCII text',
+								cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 meetupApp',
 							},
 							
 						],
@@ -272,6 +269,34 @@ var t1 = new Terminal()
 					
 				]
 
+				// const loopFinder = {
+				// 	name: '.hidden',
+				// 	objectRequestedName: 
+				// 	printFunction: 
+				// 		function() {
+				// 			descriptions.map((description) => {
+				// 				if (description.name == this.name) {
+				// 					return
+				// 				} else {
+				// 					t1.print(`${this.objectRequestedName}`)
+				// 				}
+				// 			})
+				// 		},
+				// }
+				
+
+
+
+			const loopFinder = (name, descriptionName) => {
+				descriptions.map((description) => {
+					if (description.name == name) {
+						return
+					} else {
+						console.log(description.call(`${this.descriptionName}`));
+						t1.print(`${description.descriptionName}`)
+					}
+				})
+			}
 
 			const terminal = () => {
 				t1.input('', function(input) {
