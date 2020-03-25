@@ -70,4 +70,8 @@ a {
 div .hidden {
   opacity: .5;
 }
+img {
+  height: 30%;
+  width: 30%;
+}
 /*# sourceMappingURL=styles.css.map */

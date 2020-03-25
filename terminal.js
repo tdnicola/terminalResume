@@ -195,7 +195,6 @@ var Terminal = (function () {
 
 
 
-
 var t1 = new Terminal()
 	
 			t1.setBackgroundColor('#1E1E1E')
@@ -251,17 +250,20 @@ var t1 = new Terminal()
 					},
 					{
 						name: 'contact',
+						info: [
+							{
+								website: 'https://www.tonynicola.com',
+								github: 'https://www.github.com/tdnicola',
+								linkedin: 'https://www.linkedin.com/in/tony-nicola'
+							},
+						],
 						cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 contact',
-						// info: [
-						// 	'https://www.tonynicola.com',
-						// 	'https://www.github.com/tdnicola',
-						// 	'https://www.linkedin.com/in/tony-nicola',
-						// ],
 						file: 'contact: ASCII text',
 						
 					},
 					{
 						name: '.hidden',
+						info: [],
 						cmdDetails: 'r--r--r--  1  admin   admin  Jan 1		2001 hidden',
 						file: '.hidden: ASCII text',
 
@@ -269,34 +271,21 @@ var t1 = new Terminal()
 					
 				]
 
-				// const loopFinder = {
-				// 	name: '.hidden',
-				// 	objectRequestedName: 
-				// 	printFunction: 
-				// 		function() {
-				// 			descriptions.map((description) => {
-				// 				if (description.name == this.name) {
-				// 					return
-				// 				} else {
-				// 					t1.print(`${this.objectRequestedName}`)
-				// 				}
-				// 			})
-				// 		},
-				// }
-				
+				var projectFinder = (search) => { 
+					return descriptions[1].info.filter(o =>
+						Object.keys(o).some(k => 
+							o[k].includes(search)
+						)
+					)[0]
+				}
 
-
-
-			const loopFinder = (name, descriptionName) => {
-				descriptions.map((description) => {
-					if (description.name == name) {
-						return
-					} else {
-						console.log(description.call(`${this.descriptionName}`));
-						t1.print(`${description.descriptionName}`)
-					}
-				})
-			}
+				var objectFinder = (search) => {
+					return descriptions.filter(o => 
+						Object.keys(o).some(k =>
+							o[k].includes(search)
+							)
+						)[0]
+				}
 
 			const terminal = () => {
 				t1.input('', function(input) {
@@ -330,36 +319,58 @@ var t1 = new Terminal()
 						})
 						terminal()
 
-					} else if (input == '~ cat aboutMe') {
-						descriptions[0].info.map((info) => {
-								t1.print(info)
-							})
-					
-						terminal()
-					}  else if (input == '~ cat contact'){
-						var results = document.getElementsByClassName('results')
-						var aTag = document.createElement('a');
-						var bTag = document.createElement('a');
-						var cTag = document.createElement('a');
+					} else if (input.startsWith('~ cat ') == true) {
+						const inputArray = input.split(' ')
+						const searchTerm = inputArray.splice(2, 1) + ''
+						conditions = ['aboutMe', 'contact', '.hidden']
 
-						aTag.setAttribute('href',"https://www.tonynicola.com");
-						aTag.setAttribute('target', 'blank');
-						aTag.innerText = "tonynicola.com";						
-						bTag.setAttribute('href',"https://www.github.com/tdnicola");
-						bTag.setAttribute('target', 'blank');
-						bTag.innerText = "github/tdnicola";
-						cTag.setAttribute('href',"https://www.linkedin.com/in/tony-nicola");
-						cTag.setAttribute('target', 'blank');
-						cTag.innerText = "linkedin/tdnicola";
+						if (conditions.some(el => searchTerm.includes(el)) == true) {
+							if(searchTerm == 'contact') {
+							
+									var results = document.getElementsByClassName('results')
+									var aTag = document.createElement('a');
+									var bTag = document.createElement('a');
+									var cTag = document.createElement('a');
 
-						results[0].appendChild(aTag);
-						results[0].appendChild(document.createElement("br"));
+									aTag.setAttribute('href',objectFinder(searchTerm).info[0].website);
+									aTag.setAttribute('target', 'blank');
+									aTag.innerText = "tonynicola.com";						
+									bTag.setAttribute('href',objectFinder(searchTerm).info[0].github);
+									bTag.setAttribute('target', 'blank');
+									bTag.innerText = "github/tdnicola";
+									cTag.setAttribute('href',objectFinder(searchTerm).info[0].linkedin);
+									cTag.setAttribute('target', 'blank');
+									cTag.innerText = "linkedin/tdnicola";
 
-						results[0].appendChild(bTag);
-						results[0].appendChild(document.createElement("br"));
+									results[0].appendChild(aTag);
+									results[0].appendChild(document.createElement("br"));
 
-						results[0].appendChild(cTag);
+									results[0].appendChild(bTag);
+									results[0].appendChild(document.createElement("br"));
 
+									results[0].appendChild(cTag);
+
+									terminal()
+							} else if (searchTerm == 'aboutMe'){
+								try {
+									objectFinder(searchTerm).info.map(x => t1.print(x))
+									terminal()
+								}
+								catch (err){
+									console.log(err);
+									terminal()
+								}
+							} else {
+								var results = document.getElementsByClassName('results')
+
+								var img = document.createElement('img')
+								img.src = 'https://i.kym-cdn.com/entries/icons/original/000/021/807/ig9OoyenpxqdCQyABmOQBZDI0duHk2QZZmWg2Hxd4ro.jpg'
+								results[0].appendChild(img)
+								t1.print('you sly dog you...')
+
+								terminal()
+							}
+						}
 						terminal()
 					
 					} else if (input.startsWith('~ file ') == true ) {
@@ -405,11 +416,25 @@ var t1 = new Terminal()
 						const inputArray = input.split(' ')
 						const searchTerm = inputArray.splice(3, 1) + ''
 						try {
-							t1.print(descriptions[1].info.filter(o =>
-								Object.keys(o).some(k => 
-									o[k].includes(searchTerm)
-								)
-							)[0].description)
+							t1.print(projectFinder(searchTerm).description)
+
+							var results = document.getElementsByClassName('results')
+							var aTag = document.createElement('a');
+							var bTag = document.createElement('a');
+	
+							aTag.setAttribute('href',projectFinder(searchTerm).github);
+							aTag.setAttribute('target', 'blank');
+							aTag.innerText = "github link";						
+							bTag.setAttribute('href',projectFinder(searchTerm).site);
+							bTag.setAttribute('target', 'blank');
+							bTag.innerText = "live code";
+	
+							results[0].appendChild(aTag);
+							results[0].appendChild(document.createElement("br"));
+
+							projectFinder(searchTerm).site ? results[0].appendChild(bTag) : console.log('no site');
+						
+							
 						} catch(err) {
 							terminal()
 							console.log(err);
@@ -420,11 +445,7 @@ var t1 = new Terminal()
 						const inputArray = input.split(' ')
 						const searchTerm = inputArray.splice(3, 1) + ''
 						try {
-							t1.print(descriptions[1].info.filter(o =>
-								Object.keys(o).some(k => 
-									o[k].includes(searchTerm)
-								)
-							)[0].file)
+							t1.print(projectFinder(searchTerm).file)
 						} catch(err) {
 							terminal()
 							console.log(err);
