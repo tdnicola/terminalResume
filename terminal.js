@@ -210,11 +210,11 @@ var t1 = new Terminal()
 						],
 						file: 'aboutMe: ASCII text',
 
-						cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 aboutMe',
+						cmdDetails: '-r--r--r--  1  user   user  Jan 1	2020 aboutMe',
 					},
 					{
 						name: 'projects',
-						cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 projects',
+						cmdDetails: '-r--r--r--  1  user   user  Jan 1	2020 projects',
 						info: [
 							{
 								projectName: 'healthyPotatoesApp',
@@ -224,14 +224,14 @@ var t1 = new Terminal()
 								
 								description: 'MERN stack (MongoDB, Express, React, and Node.js) using password hashing for CRUD methods. Pulls movie/director information from MongoDB API. Allows you to change user information as well as favorite/remove movies once logged in. Hosted on Heroku.',
 								file: 'healthyPotatoesApp: ASCII text',
-								cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 healthyPotatoesApp',
+								cmdDetails: '-r--r--r--  1  user   user  Jan 1	2020 healthyPotatoesApp',
 							},
 							{
 								projectName: 'discordBot',
 								github: 'https://github.com/tdnicola/discord_insult-bot',
 								description: 'Discord bot that when given commands will: insult friends, praise friends, random gif, or search for a gif through various APIs. Uses OOP to query/update postgreSQL database for stats. Built with Node.js.',								
 								file: 'discordBot: ASCII text',
-								cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 discordBot',
+								cmdDetails: '-r--r--r--  1  user   user  Jan 1	2020 discordBot',
 							},
 							{
 								projectName: 'meetupApp',
@@ -241,7 +241,7 @@ var t1 = new Terminal()
 								
 								description: 'Serverless PWA built with React using TDD/BDD/End-to-End testing.	Application uses the meetup API and AWS. Data visualization where applicable. Have to log into meetup to test. test email/pw email: kja76448@bcaoo.com	pw: testing',
 								file: 'meetupApp: ASCII text',
-								cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 meetupApp',
+								cmdDetails: '-r--r--r--  1  user   user  Jan 1	2020 meetupApp',
 							},
 							
 						],
@@ -257,14 +257,14 @@ var t1 = new Terminal()
 								linkedin: 'https://www.linkedin.com/in/tony-nicola'
 							},
 						],
-						cmdDetails: 'r--r--r--  1  user   user  Jan 1	2020 contact',
+						cmdDetails: '-r--r--r--  1  user   user  Jan 1	2020 contact',
 						file: 'contact: ASCII text',
 						
 					},
 					{
 						name: '.hidden',
 						info: [],
-						cmdDetails: 'r--r--r--  1  admin   admin  Jan 1		2001 hidden',
+						cmdDetails: '-r--r--r--  1  admin   admin  Jan 1		2001 hidden',
 						file: '.hidden: ASCII text',
 
 					}
@@ -286,6 +286,8 @@ var t1 = new Terminal()
 							)
 						)[0]
 				}
+				
+				
 
 			const terminal = () => {
 				t1.input('', function(input) {
@@ -322,35 +324,35 @@ var t1 = new Terminal()
 					} else if (input.startsWith('~ cat ') == true) {
 						const inputArray = input.split(' ')
 						const searchTerm = inputArray.splice(2, 1) + ''
-						conditions = ['aboutMe', 'contact', '.hidden']
+						conditions = descriptions.map(project => {return project.name});
 
 						if (conditions.some(el => searchTerm.includes(el)) == true) {
 							if(searchTerm == 'contact') {
 							
-									var results = document.getElementsByClassName('results')
-									var aTag = document.createElement('a');
-									var bTag = document.createElement('a');
-									var cTag = document.createElement('a');
+								var results = document.getElementsByClassName('results')
+								var aTag = document.createElement('a');
+								var bTag = document.createElement('a');
+								var cTag = document.createElement('a');
 
-									aTag.setAttribute('href',objectFinder(searchTerm).info[0].website);
-									aTag.setAttribute('target', 'blank');
-									aTag.innerText = "tonynicola.com";						
-									bTag.setAttribute('href',objectFinder(searchTerm).info[0].github);
-									bTag.setAttribute('target', 'blank');
-									bTag.innerText = "github/tdnicola";
-									cTag.setAttribute('href',objectFinder(searchTerm).info[0].linkedin);
-									cTag.setAttribute('target', 'blank');
-									cTag.innerText = "linkedin/tdnicola";
+								aTag.setAttribute('href',objectFinder(searchTerm).info[0].website);
+								aTag.setAttribute('target', 'blank');
+								aTag.innerText = "tonynicola.com";						
+								bTag.setAttribute('href',objectFinder(searchTerm).info[0].github);
+								bTag.setAttribute('target', 'blank');
+								bTag.innerText = "github/tdnicola";
+								cTag.setAttribute('href',objectFinder(searchTerm).info[0].linkedin);
+								cTag.setAttribute('target', 'blank');
+								cTag.innerText = "linkedin/tdnicola";
 
-									results[0].appendChild(aTag);
-									results[0].appendChild(document.createElement("br"));
+								results[0].appendChild(aTag);
+								results[0].appendChild(document.createElement("br"));
 
-									results[0].appendChild(bTag);
-									results[0].appendChild(document.createElement("br"));
+								results[0].appendChild(bTag);
+								results[0].appendChild(document.createElement("br"));
 
-									results[0].appendChild(cTag);
+								results[0].appendChild(cTag);
 
-									terminal()
+								terminal()
 							} else if (searchTerm == 'aboutMe'){
 								try {
 									objectFinder(searchTerm).info.map(x => t1.print(x))
@@ -377,11 +379,7 @@ var t1 = new Terminal()
 						const inputArray = input.split(' ')
 						const searchTerm = inputArray.splice(2, 1) + ''
 						try {
-							t1.print(descriptions.filter(o =>
-								Object.keys(o).some(k => 
-									o[k].includes(searchTerm)
-								)
-							)[0].file)
+							t1.print(objectFinder(searchTerm).file)
 						
 						} catch(err) {
 							terminal()
@@ -412,55 +410,69 @@ var t1 = new Terminal()
 						})
 
 						terminal()
-					} else if (input.startsWith('~ projects cat ') == true ) {
+					} else if (input.startsWith('~ projects ') == true ) {
 						const inputArray = input.split(' ')
 						const searchTerm = inputArray.splice(3, 1) + ''
-						try {
-							t1.print(projectFinder(searchTerm).description)
-
-							var results = document.getElementsByClassName('results')
-							var aTag = document.createElement('a');
-							var bTag = document.createElement('a');
-	
-							aTag.setAttribute('href',projectFinder(searchTerm).github);
-							aTag.setAttribute('target', 'blank');
-							aTag.innerText = "github link";						
-							bTag.setAttribute('href',projectFinder(searchTerm).site);
-							bTag.setAttribute('target', 'blank');
-							bTag.innerText = "live code";
-	
-							results[0].appendChild(aTag);
-							results[0].appendChild(document.createElement("br"));
-
-							projectFinder(searchTerm).site ? results[0].appendChild(bTag) : console.log('no site');
+						const fileTerm = inputArray.splice(2,1) + ''
+						conditions = descriptions[1].info.map(project => {return project.projectName}); //returning all projectNames
 						
-							
-						} catch(err) {
-							terminal()
-							console.log(err);
-						}
-						terminal()
+						if (conditions.some(el => searchTerm.includes(el)) == true) {
+							if (fileTerm == 'cat') {
+								try {
+									t1.print(projectFinder(searchTerm).description)
 
-					} else if (input.startsWith('~ projects file ') == true ) {
-						const inputArray = input.split(' ')
-						const searchTerm = inputArray.splice(3, 1) + ''
-						try {
-							t1.print(projectFinder(searchTerm).file)
-						} catch(err) {
-							terminal()
-							console.log(err);
-						}
-						terminal()
+									var results = document.getElementsByClassName('results')
+									var aTag = document.createElement('a');
+									var bTag = document.createElement('a');
+			
+									aTag.setAttribute('href',projectFinder(searchTerm).github);
+									aTag.setAttribute('target', 'blank');
+									aTag.innerText = "github link";						
+									bTag.setAttribute('href',projectFinder(searchTerm).site);
+									bTag.setAttribute('target', 'blank');
+									bTag.innerText = "live code";
+			
+									results[0].appendChild(aTag);
+									results[0].appendChild(document.createElement("br"));
 
-					}
-					else if (input == '~ clear') {
+									projectFinder(searchTerm).site ? results[0].appendChild(bTag) : console.log('no site');
+									
+								} catch(err) {
+									terminal()
+									console.log(err);
+								}
+								terminal()
+							} else if (fileTerm == 'file') {
+								try {
+									t1.print(projectFinder(searchTerm).file)
+								} catch(err) {
+									terminal()
+									console.log(err);
+								}
+								terminal()
+							}
+						} else {
+							terminal()
+						}
+					} else if (input == '~ clear') {
 						t1.clear()
 						terminal()
 
-					}
-					else {
-						terminal()
+					} else if (input.startsWith('~ touch ') == true) {
+						const inputArray = input.split(' ')
+						const searchTerm = inputArray.splice(2, 1) + ''
 
+						descriptions.push({
+							name: searchTerm,
+							info: [],
+							cmdDetails: '-rw-r--r--  1  user   user  Jan 1		2020 ' + searchTerm,
+							file: searchTerm + ': ASCII text',
+						})
+						console.log(descriptions);
+						terminal()
+					}
+					else { //nothing matches, returns the terminal
+						terminal()
 					}
 				})
 			}
