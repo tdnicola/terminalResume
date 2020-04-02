@@ -362,6 +362,8 @@ var t1 = new Terminal()
 									console.log(err);
 									terminal()
 								}
+							} else if (searchTerm == 'projects'){
+								t1.print('cat: projects: Is a directory')
 							} else {
 								var results = document.getElementsByClassName('results')
 
